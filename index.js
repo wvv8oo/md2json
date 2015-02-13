@@ -147,6 +147,6 @@ function scanDirectory(parent, filter, callback){
 
     //读取文件
     var content = _fs.readFileSync(path, 'utf-8');
-    callback(content, file);
+    callback(content, file, stat);
   });
 }
