@@ -3,10 +3,10 @@
  */
 
 var _moment = require('moment')
-  , _ = require('underscore')
-  , _path = require('path')
-  , _fs = require('fs')
-  , _mde = require('markdown-extra');
+    , _ = require('underscore')
+    , _path = require('path')
+    , _fs = require('fs')
+    , _mde = require('markdown-extra');
 
 /*
  @summary 扫描所有的markdown
@@ -17,15 +17,15 @@ var _moment = require('moment')
  */
 exports.scan = function(dir, filter, maps, callback){
   //扫描本地指定目录
-  scanDirectory(dir, filter, function(content, filename){
+  scanDirectory(dir, filter, function(content, filename, stat){
     //使用purelog格式化markdown
     var json = exports.convert(content, maps);
-    if(json) callback(json, filename);
+    if(json) callback(json, filename, stat);
   });
 }
 
 /*
- @summary 转换markdown格式的文本为article
+ @summary 转换markdown格式的文本为articlels
  @param {String} text - markdown格式的文本
  @returns {Object} 返回转换后的JSON数据
  */
@@ -79,13 +79,15 @@ function extraMeta(meta, maps){
   //重新组合meta
   var list = {};
   _.each(metalist, function(item){
-    _.extend(list, item);
+    list[item.key] = item.value
   });
+
+
   return list;
 }
 
 /*
-  转换为数组，并处理多余的空格
+ 转换为数组，并处理多余的空格
  */
 function toArray(text, separator){
   //如果存在标签，则分割为数组
